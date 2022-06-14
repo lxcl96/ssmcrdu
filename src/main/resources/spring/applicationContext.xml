@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Spring的配置文件，这里主要配置和业务逻辑相关的如：数据源配置，事务控制等-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- 1、开启注解扫描 扫描全包 除了控制注解@Controller-->
+    <context:component-scan base-package="com.ly.ssm" use-default-filters="false">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    <!-- 2、创建全局外部配置文件，引用它（包括数据库连接信息）-->
+    <context:property-placeholder location="classpath:jdbc.properties" order="1" file-encoding="utf-8" />
+
+
+    <!-- 3、、配置c3p0数据源  可以自己换为druid ${属性} 取值-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" >
+        <property name="driverClass" value="${c3p0.driver}" />
+        <property name="jdbcUrl" value="${c3p0.url}" />
+        <property name="user" value="${c3p0.username}" />
+        <property name="password" value="${c3p0.password}"/>
+    </bean>
+
+
+    <!-- 4、配置mybatis整合 注意看 别导错包了 是Spring-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 配置mybatis的全局配置文件  (最重要的，其余可以在mybatis的全局)-->
+        <property name="configLocation" value="classpath:mybatis-config.xml" />
+        <property name="dataSource" value="dataSource" />
+
+    </bean>
+
+</beans>
