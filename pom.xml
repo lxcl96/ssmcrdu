@@ -104,6 +104,13 @@
 
         <!-- 13、引入bootstrap 用于前端框架页面创建（静态css/js文件 自己下载）-->
 
+        <!-- 14、引入mybatis generator 逆向工程 由表生成bean对象-->
+        <dependency>
+            <groupId>org.mybatis.generator</groupId>
+            <artifactId>mybatis-generator-core</artifactId>
+            <version>1.3.7</version>
+        </dependency>
+
     </dependencies>
 
 
