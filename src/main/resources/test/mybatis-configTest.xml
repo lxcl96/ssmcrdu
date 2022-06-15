@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 声明文件根标签-->
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <properties resource="jdbc.properties" />
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <!-- 给类起别名，用于查询结果的返回类型   -->
+    <typeAliases>
+        <package name="com.ly.ssm.bean"/>
+    </typeAliases>
+
+    <environments default="development">
+        <!-- 开发环境 -->
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${c3p0.driver}"/>
+                <property name="url" value="${c3p0.url}"/>
+                <property name="username" value="${c3p0.username}"/>
+                <property name="password" value="${c3p0.password}"/>
+            </dataSource>
+        </environment>
+
+    </environments>
+
+<!--        引入映射文件，一个mapper文件对应一个接口-->
+    <mappers>
+        <mapper resource="mapper/DepartmentMapper.xml"/>
+        <mapper resource="mapper/EmployeeMapper.xml"/>
+    </mappers>
+</configuration>
