@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="true">
+    <!-- 自定义属性值-->
+    <property name="filePath" value="D:/JavaWork/Program" />
     <!-- 指定日志输出的位置 -->
     <appender name="STDOUT"
               class="ch.qos.logback.core.ConsoleAppender">
@@ -16,6 +18,18 @@
         <!-- 指定打印日志的appender，这里通过“STDOUT”引用了前面配置的appender -->
         <appender-ref ref="STDOUT" />
     </root>
-    <!-- 根据特殊需求指定局部日志级别 -->
+
+    <!-- 日志保存-->
+    <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+        <fileNamePattern>${filePath}/myLogs/ssm_crud-%d{yyyy-MM-DD}.log</fileNamePattern>
+        <!-- 最多存留3个文件 -->
+        <minIndex>1</minIndex>
+        <maxIndex>20</maxIndex>
+    </rollingPolicy>
+
+    <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+        <!-- 单文件最大50MB -->
+        <maxFileSize>50MB</maxFileSize>
+    </triggeringPolicy>
 
 </configuration>

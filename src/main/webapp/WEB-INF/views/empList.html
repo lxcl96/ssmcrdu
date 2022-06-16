@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <title>员工列表</title>
     <!-- 引入bootstrap css样式-->
     <link th:href="@{static/bootstrap-3.4.1-dist/css/bootstrap.min.css}" rel="stylesheet" >
-    <!-- 引入bootstrap js脚本-->
-    <script type="text/javascript" th:src="@{static/bootstrap-3.4.1-dist/js/bootstrap.min.js}" />
+    <!-- 引入bootstrap js脚本  script必须为双标签 否则不显示内容-->
+    <script type="text/javascript" th:src="@{static/bootstrap-3.4.1-dist/js/bootstrap.min.js}"></script>
     <!-- 引用jquery脚本-->
-    <script type="text/javascript" th:src="@{static/js/jquery-1.12.4.min.js}" />
+    <script type="text/javascript" th:src="@{static/js/jquery-1.12.4.min.js}"></script>
 </head>
 <body>
-    <p th:text="${pageInfo}"></p> <br/>
-    <h1>员工列表</h1>
+    <h1>SSM-CRUD</h1>
+<!--    <p th:text="${pageInfo}"></p>-->
+    <button type="button" class="btn btn-primary">新增</button>  <button type="button" class="btn btn-danger">删除</button>
 </body>
 </html>

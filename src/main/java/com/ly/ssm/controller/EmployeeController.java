@@ -41,7 +41,7 @@ public class EmployeeController {
             if (logger.isDebugEnabled()) {
                 logger.debug("当前请求没有携带分页条数 参数：pageSize，默认为 5");
             }
-            pageNo = 5;
+            pageSize = 5;
         }
 
         //获取所有员工信息，放到请求中

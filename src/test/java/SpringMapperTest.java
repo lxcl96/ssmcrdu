@@ -53,10 +53,10 @@ public class SpringMapperTest {
         //System.out.println("i = " + i + ",j = " + j);
         System.out.println("=====" + employeeMapper);
         //循环插入
-//        for (int i = 1; i < 1000; i++) {
-//            String uuid = UUID.randomUUID().toString().substring(0,5) + "_" + i;
-//            employeeMapper.insertSelective(new Employee(null,uuid,"m",uuid + "@ly.com",1));
-//        }
+        for (int i = 1; i < 1000; i++) {
+            String uuid = UUID.randomUUID().toString().substring(0,5) + "_" + i;
+            employeeMapper.insertSelective(new Employee(null,uuid,"m",uuid + "@ly.com",1));
+        }
         Employee employee = employeeMapper.selectByPrimaryKeyWithDepartment(558);
         System.out.println(employee);
 

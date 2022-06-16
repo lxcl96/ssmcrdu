@@ -10,6 +10,5 @@ com\ly\ssm\controller\EmployeeController.class
 com\ly\ssm\dao\DepartmentMapper.class
 com\ly\ssm\bean\EmployeeExample$Criterion.class
 com\ly\ssm\bean\EmployeeExample$GeneratedCriteria.class
-com\ly\ssm\controller\IndexController.class
 com\ly\ssm\bean\EmployeeExample$Criteria.class
 com\ly\ssm\dao\EmployeeMapper.class
