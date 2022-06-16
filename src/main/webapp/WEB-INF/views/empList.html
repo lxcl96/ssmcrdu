@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>员工列表</title>
+    <!-- 引入bootstrap css样式-->
+    <link th:href="@{static/bootstrap-3.4.1-dist/css/bootstrap.min.css}" rel="stylesheet" >
+    <!-- 引入bootstrap js脚本-->
+    <script type="text/javascript" th:src="@{static/bootstrap-3.4.1-dist/js/bootstrap.min.js}" />
+    <!-- 引用jquery脚本-->
+    <script type="text/javascript" th:src="@{static/js/jquery-1.12.4.min.js}" />
+</head>
+<body>
+    <p th:text="${pageInfo}"></p> <br/>
+    <h1>员工列表</h1>
+</body>
+</html>

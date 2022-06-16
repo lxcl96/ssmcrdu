@@ -50,11 +50,13 @@
             <version>1.3.2</version>
         </dependency>
 
-        <!-- 6、数据库连接池 c3p0 version:0.9.1.2-->
+        <!-- 6、数据库连接池 c3p0 version:0.9.5.2
+            spring高版本的话 c3p0必须最新 否责会报错 抽象类错误
+        -->
         <dependency>
-            <groupId>c3p0</groupId>
+            <groupId>com.mchange</groupId>
             <artifactId>c3p0</artifactId>
-            <version>0.9.1.2</version>
+            <version>0.9.5.2</version>
         </dependency>
 
         <!-- 7、引入MySQL的驱动 version:5.1.3-->
@@ -70,7 +72,11 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.2.3</version>
-            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
         </dependency>
 
         <!-- 9、jackJson 返回json对象 version：2.12.1-->
@@ -120,7 +126,31 @@
             <artifactId>jboss-vfs</artifactId>
             <version>3.2.16.Final</version>
         </dependency>
+
+        <!-- 16、导入SpringTest单元测试框架，它会自动导入我们需要的组件 如：mybatis
+            代替以下两步：
+                1、创建SpringIOC容器
+                ApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring/applicationContext.xml");
+                2、从从容器在取出mapper
+                EmployeeMapper employeeMapper = applicationContext.getBean(EmployeeMapper.class);
+
+               使用注解：@ContextConfiguration
+        -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>5.2.9.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- 17、设置分页查询的插件-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>5.2.0</version>
+        </dependency>
     </dependencies>
+
 
 
 

@@ -5,7 +5,7 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
-    <!-- 1、开启注解扫描 扫描全包 除了控制注解@Controller-->
+    <!-- 1、开启注解扫描 扫描全包 除了控制注解@Controller -->
     <context:component-scan base-package="com.ly.ssm" use-default-filters="false">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
@@ -26,7 +26,7 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!-- 配置mybatis的全局配置文件  (最重要的，其余可以在mybatis的全局)-->
         <property name="configLocation" value="classpath:mybatis-config.xml" />
-        <property name="dataSource" value="dataSource" />
+        <property name="dataSource" ref="dataSource" />
         <!-- 指定mybatis的mapper文件(实现mapper接口的文件)位置，类路径下的所有xml文件-->
         <property name="mapperLocations" value="classpath:mapper/*.xml" />
     </bean>

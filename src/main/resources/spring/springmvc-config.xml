@@ -7,9 +7,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <!-- 1、开启注解扫描 注意这个是SpringMVC 只扫描控制器即可(需要禁用默认的扫描规则)-->
-    <context:component-scan base-package="com.ly.ssm.controller" use-default-filters="false">
+    <context:component-scan base-package="com.ly.ssm" use-default-filters="false">
         <!-- 只扫描@Controller注解-->
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
     </context:component-scan>
 
     <!-- 2、配置视图解析器 InternalResourceViewResolver只处理jsp请求，thymeleaf处理其余请求-->
