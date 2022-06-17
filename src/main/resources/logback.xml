@@ -1,36 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="true">
-    <!-- 自定义属性值-->
+    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
     <property name="filePath" value="D:/JavaWork/Program" />
     <!-- 指定日志输出的位置 -->
     <appender name="STDOUT"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- 日志输出的格式 -->
+            <!-- 按照顺序分别是：时间、日志级别、线程名称、打印日志的类(方法行数)、日志主体内容、换行 -->
+            <pattern>[%d{yyyy-MM-DD HH:mm:ss.SSS}] [%-5level] [%thread] [%logger.%M %L] [%msg] %n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="File"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${filePath}/myLogs/ssm_crud-%d{yyyy-MM-DD}.log</file>
+        <!-- 日志保存-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <!--日志文件输出的文件名 %i 必须加-->
+            <fileNamePattern>${filePath}/myLogs/ssm_crud.%d{yyyy-MM-DD}.log.%i</fileNamePattern>
+            <!-- 最多存留5个文件 -->
+            <minIndex>1</minIndex>
+            <maxIndex>5</maxIndex>
+        </rollingPolicy>
+
         <encoder>
             <!-- 日志输出的格式 -->
             <!-- 按照顺序分别是：时间、日志级别、线程名称、打印日志的类、日志主体内容、换行 -->
             <pattern>[%d{yyyy-MM-DD HH:mm:ss.SSS}] [%-5level] [%thread] [%logger.%M %L] [%msg] %n</pattern>
             <charset>UTF-8</charset>
         </encoder>
+
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <!-- 单文件最大50MB -->
+            <maxFileSize>50MB</maxFileSize>
+        </triggeringPolicy>
     </appender>
     <!-- 设置全局日志级别。日志级别按顺序分别是：DEBUG、INFO、WARN、ERROR -->
     <!-- 指定任何一个日志级别都只打印当前级别和后面级别的日志。 -->
     <root level="DEBUG">
         <!-- 指定打印日志的appender，这里通过“STDOUT”引用了前面配置的appender -->
         <appender-ref ref="STDOUT" />
+        <appender-ref ref="File" />
     </root>
 
-    <!-- 日志保存-->
-    <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-        <fileNamePattern>${filePath}/myLogs/ssm_crud-%d{yyyy-MM-DD}.log.gz</fileNamePattern>
-        <!-- 最多存留3个文件 -->
-        <minIndex>1</minIndex>
-        <maxIndex>5</maxIndex>
-    </rollingPolicy>
-
-    <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-        <!-- 单文件最大50MB -->
-        <maxFileSize>50MB</maxFileSize>
-    </triggeringPolicy>
 
 </configuration>
