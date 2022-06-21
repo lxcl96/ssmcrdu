@@ -20,7 +20,6 @@
                 let lineObj = $(this).parent().parent();
                 //将所在行 标记成危险
                 lineObj.addClass("danger");
-                lineObj[0].async = true;
 
                 let ret = confirm("确认要删除 成员：" + lineObj.find("td:eq(2)").text() + " 吗？");
                 if (!ret) {
@@ -34,7 +33,6 @@
     </script>
 </head>
 <body>
-<!-- 搭建显示页面 -->
 <!-- 搭建显示页面 -->
 <div class="container">
     <!-- 标题 -->

@@ -1,14 +1,14 @@
 package com.ly.ssm.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ly.ssm.service.EmployeeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -26,12 +26,12 @@ public class EmployeeController {
     /**
      * get请求 返回所有员工列表 (分页查询) 【三种请求地址】
      * @param pageNo 当前页码  （sql中为pageNo -1）
-     * @param pageSize 每页显示几条数据，默认是5跳
-     * @return 跳转到员工列表展示页面
+     * @param pageSize 每页显示几条数据，默认是5条
      */
+    @ResponseBody
     @RequestMapping(method = RequestMethod.GET,value = {"/{pageNo}/{pageSize}","/{pageNo}",""})
-    public ModelAndView getEmpList(@PathVariable(required = false,value = "pageNo") Integer pageNo,
-                             @PathVariable(required = false,value = "pageSize") Integer pageSize,ModelAndView modelAndView) {
+    public String getEmpList(@PathVariable(required = false,value = "pageNo") Integer pageNo,
+                                   @PathVariable(required = false,value = "pageSize") Integer pageSize) {
         if (pageNo == null) {
             if (logger.isDebugEnabled()) {
                 logger.debug("当前请求没有携带当前页码 参数：pageNo，默认为 1");
@@ -46,10 +46,15 @@ public class EmployeeController {
         }
 
         //获取所有员工信息，放到请求中
-        modelAndView.addObject("pageInfo",employeeService.getAllEmployees(pageNo,pageSize));
-        modelAndView.setViewName("empList");
-
-        return modelAndView;
+        ObjectMapper objectMapper = new ObjectMapper();
+        String pageInfoString = null;
+        try {
+            pageInfoString = objectMapper.writeValueAsString(employeeService.getAllEmployees(pageNo, pageSize));
+        } catch (JsonProcessingException e) {
+            logger.error("分页信息json化异常：" + e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        }
+        return pageInfoString;
     }
 
 }
