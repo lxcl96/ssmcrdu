@@ -132,6 +132,39 @@
                 });
             });
 
+            //当输入框empName内容发生变化时，校验规则
+            let regName = /^([a-z]|[A-Z])\w{2,10}$/;
+            $("#empName_add_input").change(function () {
+                let empNameStr = $.trim($(this).val());
+                // ||为逻辑或 只有同时为false才为false
+                if (empNameStr.length > 10 | empNameStr.length < 3) {
+                    alert("用户名长度需在3至11位！");
+                    $("#emp_save_btn").attr("disabled","disabled");
+                    return;
+                }
+
+                if (!regName.test(empNameStr)) {
+                    alert("用户名只能由字母、数字和下划线组成，且必须由字母开头！");
+                    $("#emp_save_btn").attr("disabled","disabled");
+                    return;
+                }
+
+                $("#emp_save_btn").removeAttr("disabled");
+
+            });
+
+            //当输入框email内容发生变化时，校验规则
+            let regEmail = /^[a-z]\w{2,10}\@([a-z]|[0-9]){2,5}\.[a-z]{2,5}$/;
+            $("email_add_input").change(function () {
+                let emailStr = $.trim($(this).val());
+                if (!regEmail.test(emailStr)) {
+                    alert("邮箱格式错误，请重新输入！");
+                    $("#emp_save_btn").attr("disabled","disabled");
+                    return;
+                }
+
+                $("#emp_save_btn").removeAttr("disabled");
+            });
         };
 
         let getDeptInfo = function () {
