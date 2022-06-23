@@ -22,7 +22,7 @@
     </bean>
 
 
-    <!-- 4、配置mybatis整合 注意看 别导错包了 是org.mybatis.spring.SqlSessionFactoryBean-->
+    <!-- 4、配置mybatis整合（即Mapper文件对象，给ioc使用） 注意看 别导错包了 是org.mybatis.spring.SqlSessionFactoryBean-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!-- 配置mybatis的全局配置文件  (最重要的，其余可以在mybatis的全局)-->
         <property name="configLocation" value="classpath:mybatis-config.xml" />
@@ -32,7 +32,7 @@
     </bean>
 
 
-    <!-- 配置扫描器，将mybatis接口的实现 (动态代理的匿名内部类)加入到ioc容器中-->
+    <!-- 配置扫描器（即Mapper接口,给ioc使用），将mybatis接口的实现 (动态代理的匿名内部类)加入到ioc容器中-->
     <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!-- 扫描所有dao接口的实现，加入到IOC容器中-->
         <property name="basePackage" value="com.ly.ssm.dao" />
