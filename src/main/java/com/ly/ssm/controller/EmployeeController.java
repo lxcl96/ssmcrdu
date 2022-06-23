@@ -181,4 +181,71 @@ public class EmployeeController {
         }
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/{empId}",method = RequestMethod.DELETE)
+    public String delEmployeeById(@PathVariable("empId") Integer empId){
+        ObjectMapper objectMapper = new ObjectMapper();
+        HashMap<String, Object> reply = new HashMap<>();
+        if (logger.isDebugEnabled()) {
+            logger.debug("接收到要删除的id：" + empId);
+        }
+        try {
+            //根据id判断用户是否存在
+            if (empId == null||empId < 0 ||!employeeService.isExistsId(empId)) {
+                logger.info("该用户id不存在！");
+                reply.put("success",false);
+                reply.put("msg","该用户id不存在！");
+                return objectMapper.writeValueAsString(reply);
+            }
+
+            //开始删除
+            if (employeeService.delEmployeeById(empId) < 1) {
+                logger.info("该用户删除失败，请联系管理员！");
+                reply.put("success",false);
+                reply.put("msg","该用户删除失败，请联系管理员！");
+                return objectMapper.writeValueAsString(reply);
+            }
+
+            reply.put("success",true);
+            reply.put("msg","删除成功！");
+            return objectMapper.writeValueAsString(reply);
+        } catch (JsonProcessingException e) {
+            logger.error("json数据转换异常reply=" + reply + "\n" + e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/mulDel",method = RequestMethod.POST)
+    public String multiDelEmployee(@RequestParam("empIdArr") Integer[] empIdArr){
+        ObjectMapper objectMapper = new ObjectMapper();
+        HashMap<String, Object> reply = new HashMap<>();
+        if (logger.isDebugEnabled()) {
+            logger.debug("接收到前端传来的id数组：empIdArr=" + empIdArr);
+        }
+        try {
+            if (empIdArr.length == 0) {
+                logger.info("批量删除失败，没有选择任何用户！");
+                reply.put("success",false);
+                reply.put("msg","删除失败，没有选择任何用户！");
+                return objectMapper.writeValueAsString(reply);
+            }
+
+            //批量删除
+            if (employeeService.multiDelEmployeeByIds(empIdArr) < empIdArr.length) {
+                logger.info("有数据批量删除失败，请联系管理员！");
+                reply.put("success",false);
+                reply.put("msg","有数据批量删除失败，请联系管理员！");
+                return objectMapper.writeValueAsString(reply);
+            }
+
+            reply.put("success",true);
+            reply.put("msg","数据批量删除成功！");
+            return objectMapper.writeValueAsString(reply);
+        } catch (JsonProcessingException e) {
+            logger.error("json数据转换异常reply=" + reply + "\n" + e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        }
+
+    }
 }

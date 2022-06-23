@@ -32,7 +32,7 @@
                     }
                     let insertHtml = "<tr>\n" +
                         "                <td>\n" +
-                        "                    <input type=\"checkbox\" style=\"height:12px;vertical-align:text-top;margin-top:3px;\">\n" +
+                        "                    <input type=\"checkbox\" style=\"height:12px;vertical-align:text-top;margin-top:3px;\" name='multiCheckboxes' empId='"+ emp.empId + "'>\n" +
                         "                </td>\n" +
                         "                <td>" + emp.empId + "</td>\n" +
                         "                <td>" + emp.empName + "</td>\n" +
@@ -110,18 +110,104 @@
             // 单员工删除  动态追加的必须用此方法
             $("tbody").on('click','button[name="empDelById"]',function () {
                 let lineObj = $(this).parent().parent();
+                let empId = lineObj.find("td:eq(1)").text();
+                let empDelUrl = /*[[@{/emps}]]*/ + "";
                 //将所在行 标记成危险
-                lineObj.addClass("danger");
-                lineObj[0].async = true;
+                //lineObj.addClass("danger");
+                //lineObj[0].async = true;
 
                 let ret = confirm("确认要删除 成员：" + lineObj.find("td:eq(2)").text() + " 吗？");
                 if (!ret) {
-                    lineObj.removeClass("danger");
+                    //lineObj.removeClass("danger");
                     return false;
                 }
-                alert("删除成功！");
+                //开始发送ajax请求删除员工
+                $.ajax({
+                    type:"POST",
+                    url:empDelUrl + "/" + empId,
+                    data:{
+                        _method:"DELETE"
+                    },
+                    success:function (msg) {
+                        if (msg.success) {
+                            //保存成功，自动关闭新增窗口
+                            alert("删除成功！");
+
+                            //自动刷新当前页
+                            let currentPageNo = $("#currentPage_index").text();
+                            console.log(currentPageNo + "当前页");
+                            getEmpList(currentPageNo);
+
+                        } else {
+                            alert(msg.msg);
+                        }
+                    },
+                    error:function (msg) {
+                        alert("网络错误，请重试！" + msg);
+                    },
+                    dataType:"json"
+                });
             });
 
+            //设置多选
+            $("#MultiChoose").click(function () {
+                //全选，全不选
+                let multiAction = $(this);
+                console.log($("input[name='multiCheckboxes']"));
+                $("input[name='multiCheckboxes']").each(function (index, box) {
+                    if ($(box).prop("checked")!=multiAction.prop("checked")) {
+                        $(box).prop("checked",multiAction.prop("checked"));
+                    }
+                })
+            });
+
+            //批量删除
+            $("#empMultiDel").click(function () {
+                let mulDelChoose = $("input[name='multiCheckboxes']:checked");
+                //console.log(mulDelChoose.attr("empId"));
+                if (mulDelChoose.length <= 0) {
+                    alert("您尚未选择任何数据！");
+                    return false;
+                }
+                let confirmRet = confirm("确认执行批量删除操作？");
+                if (!confirmRet) {
+                    return false;
+                }
+                let empIdArrs = [];
+                mulDelChoose.each(function (index,choose) {
+                    empIdArrs[index] = $(choose).attr("empId");
+                })
+                console.log(empIdArrs);
+
+                //发送ajax请求，批量删除数据
+                let mulDelUrl = /*[[@{/emps/mulDel}]]*/ + "";
+                $.ajax({
+                    type:"POST",
+                    url:mulDelUrl,
+                    data:{
+                        "empIdArr":empIdArrs
+                    },
+                    success:function (msg) {
+                        if (msg.success) {
+                            //保存成功，自动关闭新增窗口
+                            alert("批量删除成功！");
+
+                            //自动刷新当前页
+                            let currentPageNo = $("#currentPage_index").text();
+                            console.log(currentPageNo + "当前页");
+                            getEmpList(currentPageNo);
+
+                        } else {
+                            alert(msg.msg);
+                        }
+                    },
+                    error:function (msg) {
+                        alert("网络错误，请重试！" + msg);
+                    },
+                    dataType:"json",
+                    traditional:true//防止深度序列化
+                });
+            });
 
             //新增员工信息
             $("#empMultiEdit").click(function () {
@@ -163,7 +249,7 @@
             });
 
             //当输入框email内容发生变化时，校验规则
-            let regEmail = /^[a-z]\w{2,10}\@([a-z]|[0-9]){2,5}\.[a-z]{2,5}$/;
+            let regEmail = /^\w{2,10}\@([a-z]|[0-9]){2,5}\.[a-z]{2,5}$/;
             // let checkEmail = function (event) {
             //     let emailStr = $.trim($(event).val());
             //     if (!regEmail.test(emailStr)) {
@@ -260,10 +346,10 @@
             // 动态追加的必须用此方法
             $("tbody").on('click','button[name="empEditById"]',function () {
                 //清空上一个内容
-                $("#gender1_update_input").removeAttr("checked");
-                $("#gender1_update_input").removeAttr("disabled");
-                $("#gender2_update_input").removeAttr("checked");
-                $("#gender2_update_input").removeAttr("disabled");
+                $("#gender1_update_input").removeProp("checked");
+                $("#gender1_update_input").removeProp("disabled");
+                $("#gender2_update_input").removeProp("checked");
+                $("#gender2_update_input").removeProp("disabled");
 
                 //回显信息
                 let trObj = $(this).parent().parent();
@@ -282,15 +368,15 @@
 
 
                 if (currentGender=="男") {
-                    $("#gender1_update_input").attr({disabled:"disabled"});
+                    $("#gender1_update_input").prop("disabled","true");
                     //jq1.6以上版本 prop("checked","true");代替attr
                     $("#gender1_update_input").prop("checked","true");
-                    $("#gender2_update_input").attr("disabled","disabled");
+                    $("#gender2_update_input").prop("disabled","true");
                 } else {
-                    $("#gender2_update_input").attr({disabled:"disabled"});
+                    $("#gender2_update_input").prop("disabled","true");
                     //jq1.6以上版本 prop("checked","true");代替attr
                     $("#gender2_update_input").prop("checked","true");
-                    $("#gender1_update_input").attr("disabled");
+                    $("#gender1_update_input").prop("disabled","true");
                 }
                 //清除之前的查询部门数据，否责会重复
                 $("select[name='dId_update']").empty();
@@ -412,7 +498,7 @@
         <thead>
             <tr>
                 <th>
-                    <input type="checkbox" style="height:12px;vertical-align:text-top;margin-top:3px;">
+                    <input type="checkbox" style="height:12px;vertical-align:text-top;margin-top:3px;" id="MultiChoose">
                 </th>
                 <th>#</th>
                 <th>姓名</th>

@@ -89,6 +89,22 @@ public class EmployeeService {
     }
 
     /**
+     * 根据用户id判断该用户是否存在！
+     * @param empId 用户id
+     * @return true：表示该用户存在，false：表示该用户不存在
+     */
+    public Boolean isExistsId(Integer empId) {
+        if (logger.isDebugEnabled()) {
+            logger.debug("根据用户名和id判断该用户是否已存在！");
+        }
+        Employee employee = employeeMapper.selectByPrimaryKey(empId);
+        if (logger.isDebugEnabled()) {
+            logger.debug("数据库查询结果列表：" + employee);
+        }
+        return employee != null;
+    }
+
+    /**
      * 新增用户，spring配置文件已经配置了事务管理即切入点表达式，所以不需要再写@注解了
      * @param employee 新用户
      * @return 影响的行数
@@ -110,5 +126,25 @@ public class EmployeeService {
         int ret = employeeMapper.updateByPrimaryKeySelective(employee);
         logger.debug("数据库影响行数为：" + ret);
         return ret;
+    }
+
+    public int delEmployeeById(Integer empId) {
+        if (logger.isDebugEnabled()) {
+            logger.debug("开始删除用户，其id=" + empId);
+        }
+
+        return employeeMapper.deleteByPrimaryKey(empId);
+
+    }
+
+    public int multiDelEmployeeByIds(Integer[] empIdArr) {
+        if (logger.isDebugEnabled()) {
+            logger.debug("开始批量删除数据！");
+        }
+        EmployeeExample example = new EmployeeExample();
+        for (Integer id : empIdArr) {
+            example.or().andEmpIdEqualTo(id);
+        }
+        return employeeMapper.deleteByExample(example);
     }
 }

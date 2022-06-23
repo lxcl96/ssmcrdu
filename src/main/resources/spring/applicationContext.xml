@@ -22,7 +22,7 @@
     </bean>
 
 
-    <!-- 4、配置mybatis整合 注意看 别导错包了 是Spring-->
+    <!-- 4、配置mybatis整合 注意看 别导错包了 是org.mybatis.spring.SqlSessionFactoryBean-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!-- 配置mybatis的全局配置文件  (最重要的，其余可以在mybatis的全局)-->
         <property name="configLocation" value="classpath:mybatis-config.xml" />

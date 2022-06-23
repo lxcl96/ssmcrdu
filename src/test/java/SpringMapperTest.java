@@ -57,8 +57,8 @@
 ////            String uuid = UUID.randomUUID().toString().substring(0,5) + "_" + i;
 ////            employeeMapper.insertSelective(new Employee(null,uuid,"m",uuid + "@ly.com",1));
 ////        }
-//        Employee employee = employeeMapper.selectByPrimaryKeyWithDepartment(558);
-//        System.out.println(employee);
+//        Employee employee = employeeMapper.selectByPrimaryKeyWithDepartment(10000);
+//        System.out.println(employee==null);
 //
 //    }
 //}
