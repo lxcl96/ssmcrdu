@@ -1,10 +1,15 @@
 package com.ly.ssm.bean;
 
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.Pattern;
+
 public class Employee {
     private Integer empId;
 
+    @Pattern(regexp = "^([a-z]|[A-Z])\\w{2,10}$",message = "错误的提示消息")
     private String empName;
-
+    @Length(max = 1,min = 1,message = "长度只能为1位")
     private String gender;
 
     private String email;

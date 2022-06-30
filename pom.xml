@@ -149,7 +149,28 @@
             <artifactId>pagehelper</artifactId>
             <version>5.2.0</version>
         </dependency>
+
+        <!-- 18、使用JSR303数据校验，需要导入hibernate-valitor包
+            tomcat7及以上直接使用
+            tomcat7以下需要替换tomcat中lib目录下的el表达式的jar包
+
+            直接放在字段上使用即可
+
+            如：
+            @Pattern(regexp = "^([a-z]|[A-Z])\\w{2,10}$",message = "错误的提示消息")
+            private String empName;
+
+            @Length(max = 1,min = 1,message = "长度只能为1位")
+            private String gender;
+        -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.1.0.Final</version>
+        </dependency>
+
     </dependencies>
+
 
 
 

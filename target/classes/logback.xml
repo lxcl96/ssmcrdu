@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="true">
+<configuration debug="false">
     <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
     <property name="filePath" value="D:/JavaWork/Program" />
     <!-- 指定日志输出的位置 -->
@@ -39,7 +39,7 @@
     </appender>
     <!-- 设置全局日志级别。日志级别按顺序分别是：DEBUG、INFO、WARN、ERROR -->
     <!-- 指定任何一个日志级别都只打印当前级别和后面级别的日志。 -->
-    <root level="DEBUG">
+    <root level="info">
         <!-- 指定打印日志的appender，这里通过“STDOUT”引用了前面配置的appender -->
         <appender-ref ref="STDOUT" />
         <appender-ref ref="File" />
